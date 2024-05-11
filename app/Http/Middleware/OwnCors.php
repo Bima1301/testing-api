@@ -17,7 +17,7 @@ class OwnCors
     public function handle($request, Closure $next)
     {
 
-        $allowedOrigins = ['http://localhost:5173'];
+        $allowedOrigins = ['http://localhost:5173/'];
 
         if ($request->server('HTTP_ORIGIN')) {
             if (in_array($request->server('HTTP_ORIGIN'), $allowedOrigins)) {
