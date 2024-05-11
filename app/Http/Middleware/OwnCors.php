@@ -16,15 +16,19 @@ class OwnCors
      */
     public function handle($request, Closure $next)
     {
-        $allowedOrigins = ['http://localhost:5173'];
-        $origin = $_SERVER['HTTP_ORIGIN'];
 
-        if (in_array($origin, $allowedOrigins)) {
-            return $next($request)
-                ->header('Access-Control-Allow-Origin', $origin)
-                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
-                ->header('Access-Control-Allow-Headers', 'Content-Type');
+        $allowedOrigins = ['http://localhost:5173'];
+
+        if ($request->server('HTTP_ORIGIN')) {
+            if (in_array($request->server('HTTP_ORIGIN'), $allowedOrigins)) {
+                return $next($request)
+                    ->header('Access-Control-Allow-Origin', $request->server('HTTP_ORIGIN'))
+                    ->header('Access-Control-Allow-Origin', '*')
+                    ->header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE')
+                    ->header('Access-Control-Allow-Headers', '*');
+            }
         }
+
 
         return $next($request);
     }
